@@ -48,6 +48,7 @@
 #include "gpio.h"
 #include "sysctl.h"
 
+extern void Sync0_Isr(void);
 
 #ifdef PDI_HAL_TEST
 
@@ -1456,7 +1457,9 @@ ESC_applicationSync0Handler(void)
     Sync0_Isr();
 #endif  // DC_SUPPORTED
 #endif  // ETHERCAT_STACK
-
+    
+    Sync0_Isr();
+    
     //
     // Acknowledge and clear interrupt in ESCSS
     //

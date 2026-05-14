@@ -1,4 +1,13 @@
 eclipse.preferences.version=1
+encoding//FLASH/device/subdir_rules.mk=UTF-8
+encoding//FLASH/device/subdir_vars.mk=UTF-8
+encoding//FLASH/makefile=UTF-8
+encoding//FLASH/objects.mk=UTF-8
+encoding//FLASH/soes_test/subdir_rules.mk=UTF-8
+encoding//FLASH/soes_test/subdir_vars.mk=UTF-8
+encoding//FLASH/sources.mk=UTF-8
+encoding//FLASH/subdir_rules.mk=UTF-8
+encoding//FLASH/subdir_vars.mk=UTF-8
 encoding//RAM/device/driverlib/ccs/subdir_rules.mk=UTF-8
 encoding//RAM/device/driverlib/ccs/subdir_vars.mk=UTF-8
 encoding//RAM/device/driverlib/subdir_rules.mk=UTF-8

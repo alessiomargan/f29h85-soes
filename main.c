@@ -11,6 +11,7 @@
 //#include <peripherals.h>
 
 extern esc_cfg_t config;
+extern uint32_t ESC_SYNCactivation(void);
 
 // redirect printf to ccs CIO
 int _write(int file, char *ptr, int len) {
@@ -18,14 +19,28 @@ int _write(int file, char *ptr, int len) {
     return 0;
 }
 
+__attribute__((interrupt ))
+void INT_myCPUTIMER0_ISR(void) {
 
+    GPIO_writePin(dbg_1, 1);
+    if ( ! ESC_SYNCactivation() ) {
+		ecat_slv();
+	}
+    GPIO_writePin(dbg_1, 0);
+}
+
+void Sync0_Isr(void) {
+
+    GPIO_writePin(dbg_2, 1);
+    ecat_slv();
+	GPIO_writePin(dbg_2, 0);
+}
 
 //
 // Main
 //
 int main()
 {
-    uint32_t cnt;
     uint16_t initStatus;
 
     // Initialize CPU1 and HAL interface
@@ -43,14 +58,14 @@ int main()
     // Init soes
     ecat_slv_init(&config);
 
+    // start timer 
+    CPUTimer_startTimer(myCPUTIMER0_BASE);
+    
     // Update local RAM with ESC register values for debugging
     while(1)
-    {
-        ecat_slv();
-        if ( ! (cnt++ % 1000) ) {
-            GPIO_togglePin(DEVICE_GPIO_PIN_LED1);
-        }
-        DEVICE_DELAY_US((uint32_t)(500));
+    {       
+        GPIO_togglePin(DEVICE_GPIO_PIN_LED1);
+        DEVICE_DELAY_US((uint32_t)(500000));
     }
 
     return 0;
