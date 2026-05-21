@@ -15,8 +15,8 @@ const led2      = led.addInstance();
 const cputimer  = scripting.addModule("/driverlib/cputimer.js", {}, false);
 const cputimer1 = cputimer.addInstance();
 const gpio      = scripting.addModule("/driverlib/gpio.js", {}, false);
-const gpio3     = gpio.addInstance();
-const gpio4     = gpio.addInstance();
+const gpio1     = gpio.addInstance();
+const gpio2     = gpio.addInstance();
 const jtag      = scripting.addModule("/driverlib/jtag.js");
 const uart      = scripting.addModule("/driverlib/uart.js", {}, false);
 const uart1     = uart.addInstance();
@@ -31,6 +31,9 @@ led1.gpio.writeInitialValue = true;
 led2.$name                  = "myBoardLED0";
 led2.$hardware              = system.deviceData.board.components.USER_LEDS.subComponents.USER_LED1;
 led2.gpio.writeInitialValue = true;
+
+const divider4       = system.clockTree["EPWMCLKDIV"];
+divider4.divideValue = 1;
 
 const divider15       = system.clockTree["PLL_REFDIV"];
 divider15.divideValue = 1;
@@ -47,15 +50,15 @@ cputimer1.enableInterrupt    = true;
 cputimer1.registerInterrupts = true;
 cputimer1.periphClock.$name  = "driverlib_perClock1";
 
-gpio3.$name             = "dbg_1";
-gpio3.direction         = "GPIO_DIR_MODE_OUT";
-gpio3.writeInitialValue = true;
-gpio3.gpioPin.$assign   = "hsecDigital.86";
+gpio1.$name             = "dbg_1";
+gpio1.direction         = "GPIO_DIR_MODE_OUT";
+gpio1.writeInitialValue = true;
+gpio1.gpioPin.$assign   = "hsecDigital.86";
 
-gpio4.$name             = "dbg_2";
-gpio4.direction         = "GPIO_DIR_MODE_OUT";
-gpio4.writeInitialValue = true;
-gpio4.gpioPin.$assign   = "hsecDigital.88";
+gpio2.$name             = "dbg_2";
+gpio2.direction         = "GPIO_DIR_MODE_OUT";
+gpio2.writeInitialValue = true;
+gpio2.gpioPin.$assign   = "hsecDigital.88";
 
 
 uart1.$hardware          = system.deviceData.board.components.XDS110_HEADER.subComponents.UART0;
