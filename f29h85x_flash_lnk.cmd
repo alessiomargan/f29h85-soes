@@ -32,7 +32,7 @@ SECTIONS
     .rodata       : {} > FLASH_RP0,     palign(8)
     .init_array   : {} > FLASH_RP0,     palign(8)
 
-    .TI.ramfunc   : {} LOAD=FLASH_RP0, RUN=SRAM_LPAx, table(BINIT), palign(8)
+    .TI.ramfunc   : { -l F29H85x_NWFlashAPI_v21.00.01.lib } LOAD=FLASH_RP0, RUN=SRAM_LPAx, table(BINIT), palign(8)
 
     .data         : {} > SRAM_LDAx
     .bss          : {} > SRAM_LDAx

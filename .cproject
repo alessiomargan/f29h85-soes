@@ -121,7 +121,7 @@
                                 <listOptionValue value="OUTPUT_FORMAT=ELF"/>
                                 <listOptionValue value="RUNTIME_SUPPORT_LIBRARY="/>
                                 <listOptionValue value="CCS_MBS_VERSION=70.0.0"/>
-                                <listOptionValue value="PRODUCTS=sysconfig:1.26.0;f29h85x-sdk:1.2.1.00;"/>
+                                <listOptionValue value="PRODUCTS=sysconfig:1.27.1;f29h85x-sdk:26.0.0.00;"/>
                                 <listOptionValue value="PRODUCT_MACRO_IMPORTS={&quot;sysconfig&quot;:[&quot;${SYSCONFIG_TOOL_INCLUDE_PATH}&quot;,&quot;${SYSCONFIG_TOOL_LIBRARY_PATH}&quot;,&quot;${SYSCONFIG_TOOL_LIBRARIES}&quot;,&quot;${SYSCONFIG_TOOL_SYMBOLS}&quot;,&quot;${SYSCONFIG_TOOL_SYSCONFIG_MANIFEST}&quot;],&quot;f29h85x-sdk&quot;:[&quot;${COM_TI_F29H85X_SDK_INCLUDE_PATH}&quot;,&quot;${COM_TI_F29H85X_SDK_LIBRARY_PATH}&quot;,&quot;${COM_TI_F29H85X_SDK_LIBRARIES}&quot;,&quot;${COM_TI_F29H85X_SDK_SYMBOLS}&quot;,&quot;${COM_TI_F29H85X_SDK_SYSCONFIG_MANIFEST}&quot;]}"/>
                                 <listOptionValue value="OUTPUT_TYPE=executable"/>
                             </option>
@@ -185,7 +185,7 @@
                         </toolChain>
                     </folderInfo>
                     <sourceEntries>
-                        <entry excluding="soes_test/params.c|f29h85x_ram_lnk.cmd|device/driverlib" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+                        <entry excluding="f29h85x_ram_lnk.cmd|device/driverlib" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
                     </sourceEntries>
                 </configuration>
             </storageModule>
