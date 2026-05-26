@@ -61,9 +61,9 @@ gpio2.writeInitialValue = true;
 gpio2.gpioPin.$assign   = "hsecDigital.88";
 
 
-uart1.$hardware          = system.deviceData.board.components.XDS110_HEADER.subComponents.UART0;
 uart1.baudSelect         = "115200";
-uart1.$name              = "dbgUART0";
+uart1.$hardware          = system.deviceData.board.components["HSEC Header"].subComponents.SCI_LOC1;
+uart1.$name              = "dbg_UART0";
 uart1.txQual.$name       = "myGPIOQUAL0";
 uart1.rxQual.$name       = "myGPIOQUAL1";
 uart1.periphClock.$name  = "driverlib_perClock0";

@@ -6,8 +6,8 @@
 
 #define FLASH_PARAM_ADDR    C29FLASHBANKFR1RP1STARTADDRESS
 
-void Configure_flashAPI(void);
-
+Fapi_StatusType Configure_flashAPI(void);
+Fapi_StatusType Erase_flash_sector(uint32_t address);
 bool Write_flash(uint32_t flash_addr, void * src, uint32_t size);
 
 #endif

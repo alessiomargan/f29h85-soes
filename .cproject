@@ -148,6 +148,7 @@
                                     <listOptionValue value="CPU1"/>
                                     <listOptionValue value="NO_PDI_HAL_TEST"/>
                                     <listOptionValue value="ESC_DEBUG"/>
+                                    <listOptionValue value="PRINTF_REDEFINE"/>
                                 </option>
                                 <option id="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.compilerID.GENERATE_DWARF_DEBUG.802679027" superClass="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.compilerID.GENERATE_DWARF_DEBUG" value="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.compilerID.GENERATE_DWARF_DEBUG.G_LOWERCASE" valueType="enumerated"/>
                                 <option id="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.compilerID.STD_C.1863931148" superClass="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.compilerID.STD_C" value="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.compilerID.STD_C.c1x" valueType="enumerated"/>

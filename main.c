@@ -6,17 +6,33 @@
 #include "board.h"
 #include "stdio.h"
 
+#include <cc.h>
 #include <soes/ecat_slv.h>
-//#include <pins.h>
-//#include <peripherals.h>
+#include "flash_utils.h"
+
+#define LOG_BUFF_SIZE  128 
+static uint8_t log_buff[LOG_BUFF_SIZE];
 
 extern esc_cfg_t config;
 extern uint32_t ESC_SYNCactivation(void);
 
-// redirect printf to ccs CIO
+#if 0
+// redirect printf to ccs CIO ... Properties/Debug/Enable CIO function use 
 int _write(int file, char *ptr, int len) {
-    UART_writeCharArray(UARTA_BASE, (uint8_t*)ptr, len);
+    UART_writeCharArray(dbg_UART0_BASE, (uint8_t*)ptr, len);
     return 0;
+}
+#endif
+
+void dbg_printf(const char *fmt, ...)
+{
+    va_list args;
+    
+    va_start(args, fmt);
+    vsnprintf((char *)(log_buff), LOG_BUFF_SIZE, fmt, args);
+    //HAL_Uart_TxStr(VOR_UART0, (const char *)log_buff);
+    UART_writeCharArray(dbg_UART0_BASE, log_buff, strlen(log_buff));
+    va_end(args);
 }
 
 __attribute__((interrupt ))
@@ -45,17 +61,20 @@ int main()
 
     // Initialize CPU1 and HAL interface
     initStatus = ESC_initHW();
-
+    // Initialize SysConfig Settings
     Board_init();
     printf("Hello world !!\n");
     
     // Loop and signal error if initHW returns failure
     if(initStatus == ESC_HW_INIT_FAIL)
     {
-        printf("FAIL ESC_initHW");
+        printf("FAIL ESC_initHW\n");
     }
     
-    // Init soes
+    //
+    Configure_flashAPI();
+    
+    // Initialize SOES
     ecat_slv_init(&config);
 
     // start timer 
