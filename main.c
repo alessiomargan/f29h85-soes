@@ -9,6 +9,8 @@
 #include <cc.h>
 #include <soes/ecat_slv.h>
 #include "flash_utils.h"
+#include "globals.h"
+#include "params.h"
 
 #define LOG_BUFF_SIZE  128 
 static uint8_t log_buff[LOG_BUFF_SIZE];
@@ -63,8 +65,8 @@ int main()
     initStatus = ESC_initHW();
     // Initialize SysConfig Settings
     Board_init();
-    printf("Hello world !!\n");
-    
+    print_build_info();
+
     // Loop and signal error if initHW returns failure
     if(initStatus == ESC_HW_INIT_FAIL)
     {
@@ -72,7 +74,31 @@ int main()
     }
     
     //
-    Configure_flashAPI();
+    if ( Configure_flashAPI() != Fapi_Status_Success ) {
+        printf("FAIL Configure_flashAPI\n");
+    }
+    if (Read_Flash_Params() == PARAMS_CMD_ERROR) {
+        //
+        //glob_fault.bit.warn_read_flash = 1;
+        DPRINT("Read_Flash_Params FAIL\n");
+        if (Load_Default_Params() == PARAMS_CMD_ERROR) {
+            // FATAL ERROR
+            //Error_Handler();
+        }
+        DPRINT("Load_Default_Params\n");
+    }
+
+    //if ( Erase_dataFlashSector((uint32_t)&flash_sdo, sizeof(flash_sdo)) != Fapi_Status_Success ) {
+    //    DPRINT("FAIL erase data sector !!!\n");
+    //}
+
+    DPRINT("sdo.ram.fw_ver=%s\n", sdo.ram.fw_ver);
+    DPRINT("FLASH_SDO\n");
+    print_sdo(&flash_sdo);
+    DPRINT("DFLT_FLASH_SDO\n");
+    print_sdo(&dflt_flash_sdo);
+    DPRINT("SDO\n");
+    print_sdo(&sdo.flash);
     
     // Initialize SOES
     ecat_slv_init(&config);

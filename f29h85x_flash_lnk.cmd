@@ -15,6 +15,9 @@ MEMORY
     FLASH_RP1 : o=0x10100000, l=0x100000
     FLASH_RP2 : o=0x10200000, l=0x100000
     FLASH_RP3 : o=0x10300000, l=0x100000
+    /* data-only flash bank 256 kB divided in 128 sectors of 2kB */
+    FLASH_RP4 : o=0x10C00000, l=0x40000
+    
 }
 
 
@@ -39,4 +42,6 @@ SECTIONS
     .stack        : {} > SRAM_LDAx
     .sysmem       : {} > SRAM_LDAx
     .cio          : {} > SRAM_LDAx
+
+    .params       : {} > FLASH_RP4,     palign(8)
 }
