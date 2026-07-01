@@ -27,6 +27,12 @@
                     "C29xx_CPU1"
                 ]
             }
+        },
+        {
+            "name": "F29H850TU9.ccxml",
+            "type": "ccs-debug",
+            "request": "launch",
+            "targetConfig": "${workspaceFolder}/targetConfigs/F29H850TU9.ccxml"
         }
     ]
 }

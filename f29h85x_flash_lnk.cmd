@@ -43,5 +43,5 @@ SECTIONS
     .sysmem       : {} > SRAM_LDAx
     .cio          : {} > SRAM_LDAx
 
-    .params       : {} > FLASH_RP4,     palign(8)
+    .params       : {} > FLASH_RP4,     palign(8), TYPE=NOLOAD
 }
