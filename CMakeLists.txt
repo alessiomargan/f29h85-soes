@@ -337,7 +337,7 @@ if(CREATE_BIN)
         COMMAND ${TI_CLANG_ROOT}/bin/c29objcopy --remove-section=cert -O binary $<TARGET_FILE:${PROJECT_NAME}.out> ${PROJECT_NAME}.bin
         COMMAND /bin/sh -c "[ ${DUMMY_CERT_FLAG} -eq 0 ] && \"${HOST_PYTHON}\" \"${MCU_SDK_ROOT}/tools/boot/signing/mcu_rom_image_gen.py\" --image-bin \"${PROJECT_NAME}.bin\" --core C29 --swrv 1 --loadaddr ${BOOT_LOAD_ADDR} --sign-key \"${SIGNING_KEY_FILE}\" --out-image \"${PROJECT_NAME}_cert.bin\" --device f29h85x --boot ${BOOT_MODE} --img_integ no || :"
         COMMAND /bin/sh -c "[ ${DUMMY_CERT_FLAG} -eq 0 ] && \"${TI_CLANG_ROOT}/bin/c29objcopy\" --update-section cert=C29-cert-pad.bin \"${PROJECT_NAME}.out\" \"${PROJECT_NAME}.out\" || :"
-        COMMAND /bin/sh -c "[ ${DUMMY_CERT_FLAG} -eq 1 ] && \"${UPDATE_DUMMY_CERT_TOOL}\" \"${DUMMY_CERT_FILE}\" \"${PROJECT_NAME}.bin\" || :"
+        COMMAND /bin/sh -c "[ ${DUMMY_CERT_FLAG} -eq 1 ] && chmod +x \"${UPDATE_DUMMY_CERT_TOOL}\" && \"${UPDATE_DUMMY_CERT_TOOL}\" \"${DUMMY_CERT_FILE}\" \"${PROJECT_NAME}.bin\" || :"
         COMMAND /bin/sh -c "[ ${DUMMY_CERT_FLAG} -eq 1 ] && cat \"${DUMMY_CERT_FILE}\" \"${PROJECT_NAME}.bin\" > \"${PROJECT_NAME}_cert.bin\" || :"
         COMMAND /bin/sh -c "[ ${DUMMY_CERT_FLAG} -eq 1 ] && \"${TI_CLANG_ROOT}/bin/c29objcopy\" --update-section cert=\"${DUMMY_CERT_FILE}\" \"${PROJECT_NAME}.out\" \"${PROJECT_NAME}.out\" || :"
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
@@ -378,11 +378,17 @@ if(USE_SYSCFG)
 endif()
 
 # Keep the CCS pre-build metadata generation behavior when the script exists.
-if(EXISTS "${GIT_UC_TEST_ROOT}/common_src/gen_build_info.sh")
-    add_custom_command(TARGET ${PROJECT_NAME}.out PRE_BUILD
-        COMMAND "${GIT_UC_TEST_ROOT}/common_src/gen_build_info.sh" "${GIT_UC_TEST_ROOT}/common_src/soes_test"
+set(BUILD_INFO_SCRIPT "${GIT_UC_TEST_ROOT}/common_src/gen_build_info.sh")
+set(BUILD_INFO_TARGET_DIR "${GIT_UC_TEST_ROOT}/common_src/soes_test")
+set(BUILD_INFO_HEADER "${BUILD_INFO_TARGET_DIR}/include/build_info.h")
+
+if(EXISTS "${BUILD_INFO_SCRIPT}")
+    add_custom_target(generate_build_info
+        COMMAND "${BUILD_INFO_SCRIPT}" "${BUILD_INFO_TARGET_DIR}"
         COMMENT "Generating build metadata for soes_test..."
+        VERBATIM
     )
+    add_dependencies(${PROJECT_NAME}.out generate_build_info)
 endif()
 
 # ==============================================================================

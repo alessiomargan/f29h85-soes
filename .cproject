@@ -189,6 +189,12 @@
                     </folderInfo>
                     <sourceEntries>
                         <entry excluding="build|f29h85x_ram_lnk.cmd|device/driverlib" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="build/CMakeFiles/CMakeScratch"/>
+                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="build/CMakeFiles/Progress"/>
+                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="build/CMakeFiles/f29h85x_cpu1_soes.out.dir"/>
+                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="build/CMakeFiles/generate_build_info.dir"/>
+                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="build/CMakeFiles/generate_syscfg.dir"/>
+                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="build/syscfg"/>
                     </sourceEntries>
                 </configuration>
             </storageModule>
