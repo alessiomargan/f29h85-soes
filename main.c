@@ -32,7 +32,6 @@ void dbg_printf(const char *fmt, ...)
     
     va_start(args, fmt);
     vsnprintf((char *)(log_buff), LOG_BUFF_SIZE, fmt, args);
-    //HAL_Uart_TxStr(VOR_UART0, (const char *)log_buff);
     UART_writeCharArray(dbg_UART0_BASE, log_buff, strlen(log_buff));
     va_end(args);
 }

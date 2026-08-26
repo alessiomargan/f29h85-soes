@@ -57,6 +57,10 @@ set(CMAKE_C_COMPILER "${TI_CLANG_C_COMPILER}" CACHE FILEPATH "C compiler" FORCE)
 set(CMAKE_ASM_COMPILER "${TI_CLANG_ASM_COMPILER}" CACHE FILEPATH "ASM compiler" FORCE)
 set(CMAKE_AR "${TI_CLANG_AR}" CACHE FILEPATH "Archiver" FORCE)
 
+# Exclude the generated build tree before project() emits compiler-identification
+# sources that CCS Theia could otherwise discover and add to the project build.
+file(WRITE "${CMAKE_BINARY_DIR}/.exclude" "")
+
 # Project definition
 project(f29h85x_cpu1_soes
     VERSION 1.0.0
@@ -131,7 +135,6 @@ endif()
 # Root project source files
 set(PROJECT_SOURCES
     main.c
-    esc_hw_f29x.c
     ethercat_subdevice_cpu1_hal.c
     flash_utils.c
     "${MCU_SDK_ROOT}/examples/device_support/source/codestartbranch.asm"
@@ -146,6 +149,8 @@ if(EXISTS "${GIT_SOES_ROOT}/soes/ecat_slv.c")
         "${GIT_SOES_ROOT}/soes/ecat_slv.c"
         "${GIT_SOES_ROOT}/soes/esc.c"
         "${GIT_SOES_ROOT}/soes/esc_coe.c"
+        "${GIT_SOES_ROOT}/soes/esc_foe.c"
+        "${GIT_SOES_ROOT}/soes/hal/advr_esc/esc_hw_f29x.c"
     )
 else()
     message(WARNING "SOES sources not found under GIT_SOES_ROOT='${GIT_SOES_ROOT}'. Build will exclude linked CCS SOES files.")
