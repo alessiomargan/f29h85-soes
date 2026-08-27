@@ -1,7 +1,7 @@
 # Top-level helper Makefile for CMake-based TI C29 builds.
 
 CMAKE ?= cmake
-BUILD_DIR ?= build
+BUILD_DIR ?= build_vscode
 BUILD_TYPE ?= Debug
 TARGET_CONFIG ?= FLASH
 CREATE_BIN ?= ON
@@ -35,7 +35,7 @@ help:
 	@echo ""
 	@echo "Common overrides:"
 	@echo "  BUILD_TYPE=Debug|Release"
-	@echo "  BUILD_DIR=build"
+	@echo "  BUILD_DIR=build_vscode"
 	@echo "  TI_CLANG_ROOT=/path/to/ti-cgt-c29"
 	@echo "  MCU_SDK_ROOT=/path/to/f29h85x-sdk"
 	@echo "  SYSCONFIG_ROOT=/path/to/sysconfig"
