@@ -3,3 +3,7 @@
 FLASH/
 
 RAM/
+APP_CC/
+build/
+build_vscode/
+f29h85x.bin

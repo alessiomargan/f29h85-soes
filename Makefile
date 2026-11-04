@@ -14,10 +14,10 @@ SYSCONFIG_ROOT ?= /home/amargan/ti/sysconfig_1.27.1
 DSLITE ?= /home/amargan/ti/uniflash_9.6.0/dslite.sh
 TARGET_CONFIG_FILE ?= $(CURDIR)/targetConfigs/F29H850TU9.ccxml
 
-BIN_FILE := $(BUILD_DIR)/f29h85x_cpu1_soes.bin
-OUT_FILE := $(BUILD_DIR)/f29h85x_cpu1_soes.out
+BIN_FILE := $(BUILD_DIR)/f29h85-soes.bin
+OUT_FILE := $(BUILD_DIR)/f29h85-soes.out
 
-.PHONY: help configure build clean rebuild flash flash-bin bin dslite-flash flash-probe
+.PHONY: help configure build clean rebuild flash flash-bin bin dslite-flash flash-probe foe-package
 
 help:
 	@echo "Usage: make <target> [VAR=value]"
@@ -32,6 +32,7 @@ help:
 	@echo "  flash-probe Alias of dslite-flash"
 	@echo "  flash       Alias of flash-bin"
 	@echo "  bin         Alias of flash-bin"
+	@echo "  foe-package Rebuild, package, and install f29h85x.bin"
 	@echo ""
 	@echo "Common overrides:"
 	@echo "  BUILD_TYPE=Debug|Release"
@@ -77,3 +78,14 @@ flash-probe: dslite-flash
 flash: flash-bin
 
 bin: flash-bin
+
+APP_BIN ?= $(BIN_FILE)
+FOE_IMAGE ?= f29h85x.bin
+FW_BIN_DIR ?= $(HOME)/.ecat_master/firmware
+
+foe-package: rebuild
+	@test -f "$(APP_BIN)" || { echo "Application binary not found: $(APP_BIN)"; exit 1; }
+	python3 tools/pack_foe_image.py "$(APP_BIN)" "$(FOE_IMAGE)"
+	@mkdir -p "$(FW_BIN_DIR)"
+	@cp "$(FOE_IMAGE)" "$(FW_BIN_DIR)/$(notdir $(FOE_IMAGE))"
+	@echo "Installed FoE image: $(FW_BIN_DIR)/$(notdir $(FOE_IMAGE))"

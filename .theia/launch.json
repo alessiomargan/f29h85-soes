@@ -2,12 +2,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "f29h85x_cpu1_soes",
+            "name": "f29h85-soes",
             "type": "ccs-debug",
             "request": "launch",
             "projectInfo": {
-                "name": "f29h85x_cpu1_soes",
-                "resourceId": "/f29h85x_cpu1_soes"
+                "name": "f29h85-soes",
+                "resourceId": "/f29h85-soes"
             },
             "connections": [
                 {

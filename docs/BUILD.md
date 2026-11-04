@@ -33,8 +33,8 @@ cmake --build build -j
 | `USE_SYSCFG` | `ON` | Generates files into `build/syscfg` |
 | `CREATE_BIN` | `ON` | Creates `.bin` from `.out` |
 | `CREATE_HEX` | `OFF` | Creates `.hex` |
-| `GIT_SOES_ROOT` | `/home/amargan/work/code/firmware/SOES` | CCS linked source root |
-| `GIT_UC_TEST_ROOT` | `/home/amargan/work/code/firmware/uc_test` | CCS linked test/hook root |
+| `GIT_SOES_ROOT` | `external/SOES` | Pinned SOES submodule |
+| `GIT_UC_TEST_ROOT` | `external/uc-test` | Pinned application-support submodule |
 
 Example:
 
@@ -46,10 +46,10 @@ cmake -B build -S . \
 
 ## Outputs
 
-- `build/f29h85x_cpu1_soes.out`
-- `build/f29h85x_cpu1_soes.bin` (if `CREATE_BIN=ON`)
-- `build/f29h85x_cpu1_soes.hex` (if `CREATE_HEX=ON`)
-- `build/f29h85x_cpu1_soes.map`
+- `build/f29h85-soes.out`
+- `build/f29h85-soes.bin` (if `CREATE_BIN=ON`)
+- `build/f29h85-soes.hex` (if `CREATE_HEX=ON`)
+- `build/f29h85-soes.map`
 
 ## SysConfig Only
 
@@ -114,6 +114,6 @@ Current CMake behavior is aligned to the CCS project settings:
 
 - Uses TI C29 toolchain (`c29clang`, `c29ar`).
 - Generates SysConfig files during build into `build/syscfg`.
-- Includes external linked CCS sources from SOES and `uc_test/common_src/soes_test`.
+- Includes repository-local SOES and `uc-test` submodules.
 - Excludes local `device/driverlib/*.c` compilation and links prebuilt SDK `driverlib.lib`.
 - Mirrors CCS FLASH linker search paths and additional SDK libs.

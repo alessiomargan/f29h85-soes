@@ -62,7 +62,7 @@ set(CMAKE_AR "${TI_CLANG_AR}" CACHE FILEPATH "Archiver" FORCE)
 file(WRITE "${CMAKE_BINARY_DIR}/.exclude" "")
 
 # Project definition
-project(f29h85x_cpu1_soes
+project(f29h85-soes
     VERSION 1.0.0
     LANGUAGES C ASM
     DESCRIPTION "F29H85x CPU1 SOES (SOEM) Embedded Application"
@@ -83,17 +83,17 @@ option(USE_SYSCFG "Use TI SysConfig generated files" ON)
 # Option to specify output format (ELF or BIN)
 option(CREATE_HEX "Create HEX output file" OFF)
 option(CREATE_BIN "Create BIN output file" ON)
-option(USE_DUMMY_CERT "Use dummy certificate post-build flow" ON)
+option(USE_DUMMY_CERT "Use dummy certificate post-build flow" OFF)
 set(TARGET_CONFIG "FLASH" CACHE STRING "Target memory configuration")
 set_property(CACHE TARGET_CONFIG PROPERTY STRINGS FLASH RAM)
 
-# External workspace paths mirrored from CCS project variables.
-set(GIT_SOES_ROOT "/home/amargan/work/code/firmware/SOES" CACHE PATH "Path to SOES repository")
-set(GIT_UC_TEST_ROOT "/home/amargan/work/code/firmware/uc_test" CACHE PATH "Path to uc_test repository")
+# Repository-local submodules. They can still be overridden for development.
+set(GIT_SOES_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/external/SOES" CACHE PATH "Path to SOES repository")
+set(GIT_UC_TEST_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/external/uc-test" CACHE PATH "Path to uc-test repository")
 
 find_program(HOST_PYTHON NAMES python3 python)
 
-set(FLASH_LOAD_ADDR "0x10001000" CACHE STRING "FLASH boot load address")
+set(FLASH_LOAD_ADDR "0x10040000" CACHE STRING "FLASH application load address")
 set(RAM_LOAD_ADDR "0x200E1000" CACHE STRING "RAM boot load address")
 set(DUMMY_CERT_FLASH_FILE "${CMAKE_CURRENT_SOURCE_DIR}/dummy_cert_crypto_unlock_flash.cert" CACHE FILEPATH "Dummy FLASH cert file")
 set(DUMMY_CERT_RAM_FILE "${CMAKE_CURRENT_SOURCE_DIR}/dummy_cert_crypto_unlock_ram.cert" CACHE FILEPATH "Dummy RAM cert file")
@@ -134,13 +134,14 @@ endif()
 
 # Root project source files
 set(PROJECT_SOURCES
-    main.c
-    ethercat_subdevice_cpu1_hal.c
-    flash_utils.c
+    src/main.c
+    src/application_boot_request.c
+    src/ethercat_subdevice_cpu1_hal.c
+    src/flash_utils.c
     "${MCU_SDK_ROOT}/examples/device_support/source/codestartbranch.asm"
 )
 
-# Linked CCS project files that live outside this repository.
+# Sources supplied by repository-local submodules.
 set(SOES_SOURCES)
 set(SOES_TEST_SOURCES)
 
@@ -199,6 +200,7 @@ set(ALL_SOURCES
 
 set(PROJECT_INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/device
     ${CMAKE_CURRENT_SOURCE_DIR}/device/driverlib/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/device/driverlib/ccs
@@ -244,9 +246,9 @@ endif()
 # ==============================================================================
 
 set(CMAKE_C_FLAGS_DEBUG "-g -w -O1 -DDEBUG")
-set(CMAKE_C_FLAGS_RELEASE "-g -w -O1 -DDEBUG")
+set(CMAKE_C_FLAGS_RELEASE "-g -w -O2 -DDEBUG")
 set(CMAKE_ASM_FLAGS_DEBUG "-g -w -O1 -DDEBUG")
-set(CMAKE_ASM_FLAGS_RELEASE "-g -w -O1 -DDEBUG")
+set(CMAKE_ASM_FLAGS_RELEASE "-g -w -O2 -DDEBUG")
 
 # ==============================================================================
 # Linker Flags and Script
@@ -339,15 +341,10 @@ endif()
 # Create BIN file
 if(CREATE_BIN)
     add_custom_command(TARGET ${PROJECT_NAME}.out POST_BUILD
-        COMMAND ${TI_CLANG_ROOT}/bin/c29objcopy --remove-section=cert -O binary $<TARGET_FILE:${PROJECT_NAME}.out> ${PROJECT_NAME}.bin
-        COMMAND /bin/sh -c "[ ${DUMMY_CERT_FLAG} -eq 0 ] && \"${HOST_PYTHON}\" \"${MCU_SDK_ROOT}/tools/boot/signing/mcu_rom_image_gen.py\" --image-bin \"${PROJECT_NAME}.bin\" --core C29 --swrv 1 --loadaddr ${BOOT_LOAD_ADDR} --sign-key \"${SIGNING_KEY_FILE}\" --out-image \"${PROJECT_NAME}_cert.bin\" --device f29h85x --boot ${BOOT_MODE} --img_integ no || :"
-        COMMAND /bin/sh -c "[ ${DUMMY_CERT_FLAG} -eq 0 ] && \"${TI_CLANG_ROOT}/bin/c29objcopy\" --update-section cert=C29-cert-pad.bin \"${PROJECT_NAME}.out\" \"${PROJECT_NAME}.out\" || :"
-        COMMAND /bin/sh -c "[ ${DUMMY_CERT_FLAG} -eq 1 ] && chmod +x \"${UPDATE_DUMMY_CERT_TOOL}\" && \"${UPDATE_DUMMY_CERT_TOOL}\" \"${DUMMY_CERT_FILE}\" \"${PROJECT_NAME}.bin\" || :"
-        COMMAND /bin/sh -c "[ ${DUMMY_CERT_FLAG} -eq 1 ] && cat \"${DUMMY_CERT_FILE}\" \"${PROJECT_NAME}.bin\" > \"${PROJECT_NAME}_cert.bin\" || :"
-        COMMAND /bin/sh -c "[ ${DUMMY_CERT_FLAG} -eq 1 ] && \"${TI_CLANG_ROOT}/bin/c29objcopy\" --update-section cert=\"${DUMMY_CERT_FILE}\" \"${PROJECT_NAME}.out\" \"${PROJECT_NAME}.out\" || :"
+        COMMAND ${TI_CLANG_ROOT}/bin/c29objcopy -O binary $<TARGET_FILE:${PROJECT_NAME}.out> ${PROJECT_NAME}.bin
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
         VERBATIM
-        COMMENT "Creating BIN file..."
+        COMMENT "Creating bootloader-loadable application BIN file..."
     )
 endif()
 

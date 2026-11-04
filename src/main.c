@@ -16,7 +16,6 @@
 static uint8_t log_buff[LOG_BUFF_SIZE];
 
 extern esc_cfg_t config;
-extern uint32_t ESC_SYNCactivation(void);
 
 #if 0
 // redirect printf to ccs CIO ... Properties/Debug/Enable CIO function use 

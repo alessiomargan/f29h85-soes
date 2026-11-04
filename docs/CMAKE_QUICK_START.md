@@ -25,8 +25,8 @@ cmake --build build --target generate_syscfg
 
 ## Output Files
 
-- `build/f29h85x_cpu1_soes.out`
-- `build/f29h85x_cpu1_soes.bin`
-- `build/f29h85x_cpu1_soes.map`
+- `build/f29h85-soes.out`
+- `build/f29h85-soes.bin`
+- `build/f29h85-soes.map`
 
 For details and troubleshooting, use [BUILD.md](BUILD.md).

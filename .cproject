@@ -4,9 +4,9 @@
         <cconfiguration id="com.ti.ccstudio.buildDefinitions.C2000.Default.1953098577">
             <storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.ti.ccstudio.buildDefinitions.C2000.Default.1953098577" moduleId="org.eclipse.cdt.core.settings" name="RAM">
                 <macros>
-                    <stringMacro name="GIT_SOES" type="VALUE_PATH_DIR" value="/home/amargan/work/code/firmware/SOES"/>
+                    <stringMacro name="GIT_SOES" type="VALUE_PATH_DIR" value="${PROJECT_ROOT}/external/SOES"/>
                     <stringMacro name="DUMMY_CERT" type="VALUE_TEXT" value="1"/>
-                    <stringMacro name="GIT_UC_TEST" type="VALUE_PATH_DIR" value="/home/amargan/work/code/firmware/uc_test"/>
+                    <stringMacro name="GIT_UC_TEST" type="VALUE_PATH_DIR" value="${PROJECT_ROOT}/external/uc-test"/>
                     <stringMacro name="EXAMPLE_ROOT" type="VALUE_PATH_ANY" value="${COM_TI_MCU_SDK_INSTALL_DIR}/examples/communication/Ethercat/examples/f29h85x_cpu1_echoback_solution/"/>
                     <stringMacro name="ETHERCAT_SOURCE" type="VALUE_PATH_ANY" value="${COM_TI_MCU_SDK_INSTALL_DIR}/source/communication/Ethercat"/>
                 </macros>
@@ -43,8 +43,9 @@
                                     <listOptionValue value="${SYSCONFIG_TOOL_INCLUDE_PATH}"/>
                                     <listOptionValue value="${COM_TI_F29H85X_SDK_INCLUDE_PATH}"/>
                                     <listOptionValue value="${PROJECT_ROOT}"/>
+                                    <listOptionValue value="${PROJECT_ROOT}/src"/>
                                     <listOptionValue value="${CG_TOOL_INCLUDE_PATH}"/>
-                                    <listOptionValue value="/home/amargan/workspace_ccstheia/f29h85x_cpu1_soes/device"/>
+                                    <listOptionValue value="${PROJECT_ROOT}/device"/>
                                 </option>
                                 <option id="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.0.compilerID.DEFINE.1142742358" superClass="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.0.compilerID.DEFINE" valueType="definedSymbols">
                                     <listOptionValue value="${SYSCONFIG_TOOL_SYMBOLS}"/>
@@ -88,18 +89,19 @@
                         </toolChain>
                     </folderInfo>
                     <sourceEntries>
-                        <entry excluding="f29h85x_flash_lnk.cmd|device/driverlib" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+                        <entry excluding="build_vscode|f29h85x_flash_lnk.cmd|device/driverlib" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="build_vscode/CMakeFiles/Progress"/>
                     </sourceEntries>
                 </configuration>
             </storageModule>
             <storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
         </cconfiguration>
         <cconfiguration id="com.ti.ccstudio.buildDefinitions.C2000.Default.788078109">
-            <storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.ti.ccstudio.buildDefinitions.C2000.Default.788078109" moduleId="org.eclipse.cdt.core.settings" name="FLASH">
+            <storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.ti.ccstudio.buildDefinitions.C2000.Default.788078109" moduleId="org.eclipse.cdt.core.settings" name="APP_CC">
                 <macros>
-                    <stringMacro name="GIT_SOES" type="VALUE_PATH_DIR" value="/home/amargan/work/code/firmware/SOES"/>
+                    <stringMacro name="GIT_SOES" type="VALUE_PATH_DIR" value="${PROJECT_ROOT}/external/SOES"/>
                     <stringMacro name="DUMMY_CERT" type="VALUE_TEXT" value="1"/>
-                    <stringMacro name="GIT_UC_TEST" type="VALUE_PATH_DIR" value="/home/amargan/work/code/firmware/uc_test"/>
+                    <stringMacro name="GIT_UC_TEST" type="VALUE_PATH_DIR" value="${PROJECT_ROOT}/external/uc-test"/>
                     <stringMacro name="EXAMPLE_ROOT" type="VALUE_PATH_ANY" value="${COM_TI_MCU_SDK_INSTALL_DIR}/examples/communication/Ethercat/examples/f29h85x_cpu1_echoback_solution/"/>
                     <stringMacro name="ETHERCAT_SOURCE" type="VALUE_PATH_ANY" value="${COM_TI_MCU_SDK_INSTALL_DIR}/source/communication/Ethercat"/>
                 </macros>
@@ -113,7 +115,7 @@
                 </extensions>
             </storageModule>
             <storageModule moduleId="cdtBuildSystem" version="4.0.0">
-                <configuration artifactExtension="out" artifactName="${ProjName}" buildProperties="" cleanCommand="${CG_CLEAN_CMD}" description="" id="com.ti.ccstudio.buildDefinitions.C2000.Default.788078109" name="FLASH" parent="com.ti.ccstudio.buildDefinitions.C2000.Default" postbuildStep="${CG_TOOL_OBJCOPY} --remove-section=cert -O binary ${ProjName}.out ${ProjName}.bin;;$(call IF_EQUAL_OPEN, ${DUMMY_CERT}, 0) $(PYTHON) ${COM_TI_MCU_SDK_INSTALL_DIR}/tools/boot/signing/mcu_rom_image_gen.py --image-bin ${ProjName}.bin --core C29 --swrv 1 --loadaddr 0x10001000 --sign-key ${COM_TI_MCU_SDK_INSTALL_DIR}/tools/boot/signing/mcu_gpkey.pem --out-image ${ProjName}_cert.bin --device f29h85x --boot FLASH --img_integ no $(IF_EQUAL_CLOSE);;$(call IF_EQUAL_OPEN, ${DUMMY_CERT}, 0) ${CG_TOOL_OBJCOPY} --update-section cert=C29-cert-pad.bin ${ProjName}.out ${ProjName}.out $(IF_EQUAL_CLOSE);;$(call IF_EQUAL_OPEN, ${DUMMY_CERT}, 1) ${COM_TI_MCU_SDK_INSTALL_DIR}/tools/misc/$(UPDATEDUMMYCERT) $(DUMMY_CERT_FLASH) ${ProjName}.bin $(IF_EQUAL_CLOSE);;$(call IF_EQUAL_OPEN, ${DUMMY_CERT}, 1) $(CONCAT) $(DUMMY_CERT_FLASH) ${ProjName}.bin &gt; ${ProjName}_cert.bin $(IF_EQUAL_CLOSE);;$(call IF_EQUAL_OPEN, ${DUMMY_CERT}, 1) ${CG_TOOL_OBJCOPY} --update-section cert=$(DUMMY_CERT_FLASH) ${ProjName}.out ${ProjName}.out $(IF_EQUAL_CLOSE);" prebuildStep="${GIT_UC_TEST}/common_src/gen_build_info.sh ${GIT_UC_TEST}/common_src/soes_test">
+                <configuration artifactExtension="out" artifactName="${ProjName}" buildProperties="" cleanCommand="${CG_CLEAN_CMD}" description="" id="com.ti.ccstudio.buildDefinitions.C2000.Default.788078109" name="APP_CC" parent="com.ti.ccstudio.buildDefinitions.C2000.Default" postbuildStep="${CG_TOOL_OBJCOPY} -O binary ${ProjName}.out ${ProjName}.bin" prebuildStep="${PROJECT_ROOT}/external/uc-test/common_src/gen_build_info.sh ${PROJECT_ROOT}/external/uc-test/common_src/soes_test">
                     <folderInfo id="com.ti.ccstudio.buildDefinitions.C2000.Default.788078109." name="/" resourcePath="">
                         <toolChain id="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.exe.DebugToolchain.1506022065" name="TI Build Tools" superClass="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.exe.DebugToolchain" targetTool="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.exe.linkerDebug.539062282">
                             <option id="com.ti.ccstudio.buildDefinitions.core.OPT_TAGS.315312367" superClass="com.ti.ccstudio.buildDefinitions.core.OPT_TAGS" valueType="stringList">
@@ -123,23 +125,24 @@
                                 <listOptionValue value="OUTPUT_FORMAT=ELF"/>
                                 <listOptionValue value="RUNTIME_SUPPORT_LIBRARY="/>
                                 <listOptionValue value="CCS_MBS_VERSION=70.0.0"/>
-                                <listOptionValue value="PRODUCTS=sysconfig:1.26.0;f29h85x-sdk:1.2.1.00;"/>
-                                <listOptionValue value="PRODUCT_MACRO_IMPORTS={&quot;sysconfig&quot;:[&quot;${SYSCONFIG_TOOL_INCLUDE_PATH}&quot;,&quot;${SYSCONFIG_TOOL_LIBRARY_PATH}&quot;,&quot;${SYSCONFIG_TOOL_LIBRARIES}&quot;,&quot;${SYSCONFIG_TOOL_SYMBOLS}&quot;,&quot;${SYSCONFIG_TOOL_SYSCONFIG_MANIFEST}&quot;],&quot;f29h85x-sdk&quot;:[&quot;${COM_TI_F29H85X_SDK_INCLUDE_PATH}&quot;,&quot;${COM_TI_F29H85X_SDK_LIBRARY_PATH}&quot;,&quot;${COM_TI_F29H85X_SDK_LIBRARIES}&quot;,&quot;${COM_TI_F29H85X_SDK_SYMBOLS}&quot;,&quot;${COM_TI_F29H85X_SDK_SYSCONFIG_MANIFEST}&quot;]}"/>
+                                <listOptionValue value="PRODUCTS=sysconfig:1.28.0;f29h85x-sdk:1.2.1.00;"/>
+                                <listOptionValue value="PRODUCT_MACRO_IMPORTS={&quot;f29h85x-sdk&quot;:[&quot;${COM_TI_F29H85X_SDK_INCLUDE_PATH}&quot;,&quot;${COM_TI_F29H85X_SDK_LIBRARY_PATH}&quot;,&quot;${COM_TI_F29H85X_SDK_LIBRARIES}&quot;,&quot;${COM_TI_F29H85X_SDK_SYMBOLS}&quot;,&quot;${COM_TI_F29H85X_SDK_SYSCONFIG_MANIFEST}&quot;],&quot;sysconfig&quot;:[&quot;${SYSCONFIG_TOOL_INCLUDE_PATH}&quot;,&quot;${SYSCONFIG_TOOL_LIBRARY_PATH}&quot;,&quot;${SYSCONFIG_TOOL_LIBRARIES}&quot;,&quot;${SYSCONFIG_TOOL_SYMBOLS}&quot;,&quot;${SYSCONFIG_TOOL_SYSCONFIG_MANIFEST}&quot;]}"/>
                                 <listOptionValue value="OUTPUT_TYPE=executable"/>
                             </option>
                             <option id="com.ti.ccstudio.buildDefinitions.core.OPT_CODEGEN_VERSION.568781778" superClass="com.ti.ccstudio.buildDefinitions.core.OPT_CODEGEN_VERSION" value="TICLANG_2.2.0.LTS" valueType="string"/>
                             <targetPlatform id="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.exe.targetPlatformDebug.1610404011" name="Platform" superClass="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.exe.targetPlatformDebug"/>
                             <builder buildPath="${BuildDirectory}" id="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.exe.builderDebug.603897537" keepEnvironmentInBuildfile="false" name="GNU Make" parallelBuildOn="true" parallelizationNumber="optimal" superClass="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.exe.builderDebug"/>
                             <tool id="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.exe.compilerDebug.1486314405" name="C2000 Compiler" superClass="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.exe.compilerDebug">
-                                <option id="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.compilerID.OPT_LEVEL.1864307961" superClass="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.compilerID.OPT_LEVEL" value="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.compilerID.OPT_LEVEL.1" valueType="enumerated"/>
+                                <option id="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.compilerID.OPT_LEVEL.1864307961" superClass="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.compilerID.OPT_LEVEL" value="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.compilerID.OPT_LEVEL.2" valueType="enumerated"/>
                                 <option id="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.compilerID.INCLUDE_PATH.881703111" superClass="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.compilerID.INCLUDE_PATH" valueType="includePath">
                                     <listOptionValue value="${SYSCONFIG_TOOL_INCLUDE_PATH}"/>
                                     <listOptionValue value="${COM_TI_F29H85X_SDK_INCLUDE_PATH}"/>
                                     <listOptionValue value="${PROJECT_ROOT}"/>
+                                    <listOptionValue value="${PROJECT_ROOT}/src"/>
                                     <listOptionValue value="${CG_TOOL_INCLUDE_PATH}"/>
-                                    <listOptionValue value="${GIT_SOES}"/>
-                                    <listOptionValue value="${GIT_SOES}/soes/include/sys/clang"/>
-                                    <listOptionValue value="${GIT_UC_TEST}/common_src/soes_test/include"/>
+                                    <listOptionValue value="${PROJECT_ROOT}/external/SOES"/>
+                                    <listOptionValue value="${PROJECT_ROOT}/external/SOES/soes/include/sys/clang"/>
+                                    <listOptionValue value="${PROJECT_ROOT}/external/uc-test/common_src/soes_test/include"/>
                                 </option>
                                 <option id="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.compilerID.DEFINE.1281132621" superClass="com.ti.ccstudio.buildDefinitions.C2000_TICLANG_2.1.compilerID.DEFINE" valueType="definedSymbols">
                                     <listOptionValue value="${SYSCONFIG_TOOL_SYMBOLS}"/>
@@ -187,15 +190,7 @@
                         </toolChain>
                     </folderInfo>
                     <sourceEntries>
-                        <entry excluding="build|f29h85x_ram_lnk.cmd|device/driverlib" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="build/CMakeFiles/Progress"/>
-                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="build/CMakeFiles/3.28.3"/>
-                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="build/CMakeFiles/CMakeScratch"/>
-                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="build/CMakeFiles/f29h85x_cpu1_soes.out.dir"/>
-                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="build/CMakeFiles/generate_build_info.dir"/>
-                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="build/CMakeFiles/generate_syscfg.dir"/>
-                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="build/CMakeFiles/pkgRedirects"/>
-                        <entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="build/syscfg"/>
+                        <entry excluding="external/uc-test/tm4c|external/uc-test/stm32f4xx|external/uc-test/msp432|external/uc-test/f28p65x|external/uc-test/f28m36|external/uc-test/common_src/tiva-morser|external/uc-test/common_src/dog_LCD|external/uc-test/common_src/dog_grlib_driver|external/uc-test/common_src/cpp_dog_LCD|external/SOES/soes/esc_eep.c|external/SOES/soes/esc_eoe.c|external/SOES/soes/include/sys/gcc|external/SOES/soes/hal/advr_esc/esc_hw_et1100.c|external/SOES/soes/hal/advr_esc/esc_hw_f28p65x.c|external/SOES/soes/hal/advr_esc/esc_hw_lan9252_hbi.c|external/SOES/soes/hal/advr_esc/esc_hw_lan9252_spi.c|external/SOES/soes/hal/advr_esc/esc_hw_lan9252.c|external/SOES/soes/hal/advr_esc/hal_ec_mbed.cpp|external/SOES/soes/hal/advr_esc/hal_ec_STM32F4xx.c|external/SOES/soes/hal/advr_esc/hal_ec_tiF28M36.c|external/SOES/soes/hal/advr_esc/hal_ec_tiM4.c|external/SOES/soes/hal/advr_esc/hal_ec_tiMSP432.c|external/SOES/soes/hal/advr_esc/soes.c|external/SOES/soes/hal/raspberrypi-lan9252|external/SOES/soes/hal/rt-kernel-lan9252|external/SOES/soes/hal/rt-kernel-twrk60|external/SOES/soes/hal/rt-kernel-xmc4|external/SOES/soes/hal/tiesc|external/SOES/soes/hal/xmc4|external/SOES/soes/hal/linux-lan9252|external/SOES/drivers|external/SOES/cmake|external/SOES/applications|tools|build_vscode|build|f29h85x_ram_lnk.cmd|device/driverlib" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
                     </sourceEntries>
                 </configuration>
             </storageModule>
